@@ -30,7 +30,7 @@ public class TaskService {
   @Transactional
   public TaskResponse createTask(Long ownerId, TaskRequest request) {
     if (taskRepository.countByOwnerId(ownerId) >= MAX_TASKS_PER_USER) {
-      throw new TaskLimitExceededException("Maximum of " + MAX_TASKS_PER_USER + " tasks per user reached");
+      throw new TaskLimitExceededException("Task limit reached");
     }
 
     User owner = userRepository.getReferenceById(ownerId);
@@ -112,10 +112,10 @@ public class TaskService {
 
   private Task findOwnedTask(Long ownerId, Long taskId) {
     Task task = taskRepository.findById(taskId)
-        .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + taskId));
+        .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
 
     if (!task.getOwner().getId().equals(ownerId)) {
-      throw new ForbiddenOperationException("You do not have access to this task");
+      throw new ForbiddenOperationException("Not your task");
     }
 
     return task;
