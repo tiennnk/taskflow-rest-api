@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+app:
+  jwt:
+    secret: dGVzdC1zZWNyZXQta2V5LWZvci11bml0LXRlc3RzLXdpbGxiZQ==
+    expiration-ms: 3600000
